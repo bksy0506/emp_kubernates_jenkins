@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: backend-service
+  namespace: my-app
+spec:
+  # Deployment의 labels.app: backend와 일치해야 합니다.
+  selector:
+    app: backend
+  ports:
+    - protocol: TCP
+      port: 8000       # 클러스터 내부에서 쓰는 포트
+      targetPort: 8000 # 컨테이너 내부(FastAPI/Django 등) 포트
+      nodePort: 30008  # 로컬 브라우저/Postman에서 접속할 포트 (30000~32767 사이)
+  type: NodePort       # ClusterIP에서 NodePort로 변경
